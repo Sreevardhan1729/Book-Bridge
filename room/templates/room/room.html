@@ -1,0 +1,181 @@
+{% extends 'chatApp/base.html' %}
+{%block title%}{{ room.name }} | {%endblock title%}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ room.name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+        background: url('https://wallpaperaccess.com/full/679017.jpg');
+    }
+    .headd{
+        padding-left: 0.95em;
+        display: flex;
+        justify-content: flex-start;
+        font-family: sans-serif;
+        font-weight: bolder;
+        font-size: 2.5em;
+        color: white;
+    }
+    .chatBorder{
+        background-color: rgb(31, 188, 246);
+        width: 38em;
+        height: auto;
+        border-radius: 25px;
+        padding: 1em;
+        margin: 35px;
+        min-height: 20em;
+    }
+    .eachChat{
+        font-family: sans-serif;
+        width: auto;
+        height: auto;
+        background-color: rgb(0, 255, 247);
+        padding: 0.2em;
+        border: 1px solid black;
+        border-radius: 15px;
+        margin: 8px;
+        padding: 5px;
+        padding-left: 7px;
+    }
+    .right{
+        background-color: rgb(31, 188, 246);
+        width: 38em;
+        height: auto;
+        border-radius: 25px;
+        padding: 1em;
+        margin: 35px;
+    }
+    #chat-message-input{
+        background-color: rgb(149, 255, 248);
+        font-family: sans-serif;
+        width: 25em;
+        height: 3em;
+        border-radius: 1.3em;
+        border: transparent;
+    }
+    #chat-message-submit{
+        background-color: rgb(0, 255, 255);
+        font-family: sans-serif;
+        color: black;
+        height: 3em;
+        width: 8em;
+        margin-left: 1em;
+        border-radius: 1.1em;
+        border: none;
+        font-family: 'Poppins', sans-serif;
+    }
+    #chat-message-submit:hover{
+        background-color: rgb(143, 231, 255);
+    }
+    #chat-message-submit:active{
+        background-color: rgb(78, 110, 252);
+    }
+    #chat-message{
+        height: 400px;
+        overflow-y: auto;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgb(0, 128, 255);
+        border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: rgb(3, 81, 159);
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(0, 47, 255);
+    }
+</style>
+<body>
+    <div class="headd">
+        <h1 style="color:rgb(106, 106, 255);">{{ room.name }}</h1>
+    </div>
+    <div class="chatBorder" id="chat-message">
+        {% for message in messages %}
+            <div class="eachChat">
+                <p style="font-family: 'Poppins', sans-serif;">{{ message.user.username }}</p>
+                <p>{{ message.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="right">
+        <form action="." method="post">
+            <input type="text" name="content" id="chat-message-input" placeholder="Message...">
+            <button id="chat-message-submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock content %}
+{% block scripts %}
+{{ room.slug|json_script:"json-roomname" }}
+{{ request.user.username|json_script:"json-username" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('json-roomname').textContent)
+    const userName = JSON.parse(document.getElementById('json-username').textContent)
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + roomName
+        + '/'
+    );
+    chatSocket.onmessage = function(e){
+        console.log('onmessage')
+        const data = JSON.parse(e.data);
+
+        if(data.message){
+            let html = '<div class="eachChat">';
+                html+='<p style="font-weight: bold;padding-left: 80%;">'+data.username +'</p>';
+                html+='<p>'+ data.message +'</p></div>';
+            document.querySelector('#chat-message').innerHTML+=html;
+            scrollToBottom();
+        }
+        else{
+            alert('The message is empty!')
+        }
+    }
+    chatSocket.onclose = function(e){
+        console.log('onclose')
+    }
+
+    //
+
+    document.querySelector('#chat-message-submit').onclick = function(e){
+        e.preventDefault();
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'message':message,
+            'username':userName,
+            'room': roomName
+        }));
+
+        messageInputDom.value='';
+
+        return false;
+    }
+    function scrollToBottom(){
+        const objectDiv = document.querySelector('#chat-message');
+        objectDiv.scrollTop=objectDiv.scrollHeight;
+    }
+    scrollToBottom();
+</script>
+{% endblock scripts %}

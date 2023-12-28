@@ -1,0 +1,348 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 5% 0;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #b9b9b9;
+  background-color: #e3e3e3;
+}
+h4 {
+  color: #4070f4;
+}
+input,
+input[type="radio"] + label,
+input[type="checkbox"] + label:before,
+select option,
+select {
+  width: 100%;
+  padding: 1em;
+  line-height: 1.4;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  -webkit-transition: 0.35s ease-in-out;
+  -moz-transition: 0.35s ease-in-out;
+  -o-transition: 0.35s ease-in-out;
+  transition: 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+input:focus {
+  outline: 0;
+  border-color: #bd8200;
+}
+input:focus + .input-icon i {
+  color: #4070f4;
+}
+input:focus + .input-icon:after {
+  border-right-color: #4070f4;
+}
+input[type="radio"] {
+  display: none;
+}
+input[type="radio"] + label,
+select {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+
+  border-radius: 0;
+}
+input[type="radio"] + label:first-of-type {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+input[type="radio"] + label:last-of-type {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+input[type="radio"] + label i {
+  padding-right: 0.4em;
+}
+input[type="radio"]:checked + label,
+input:checked + label:before,
+select:focus,
+select:active {
+  background-color: #4070f4;
+  color: #fff;
+  border-color: #bd8200;
+}
+input[type="checkbox"] {
+  display: none;
+}
+input[type="checkbox"] + label {
+  position: relative;
+  display: block;
+  padding-left: 1.6em;
+}
+input[type="checkbox"] + label:before {
+  position: absolute;
+  top: 0.2em;
+  left: 0;
+  display: block;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  content: "";
+}
+input[type="checkbox"] + label:after {
+  position: absolute;
+  top: 0.45em;
+  left: 0.2em;
+  font-size: 0.8em;
+  color: #fff;
+  opacity: 0;
+  font-family: FontAwesome;
+  content: "\f00c";
+}
+input:checked + label:after {
+  opacity: 1;
+}
+select {
+  height: 3.4em;
+  line-height: 2;
+}
+select:first-of-type {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+select:last-of-type {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+select:focus,
+select:active {
+  outline: 0;
+}
+select option {
+  background-color: #4070f4;
+  color: #fff;
+}
+.input-group {
+  margin-bottom: 1em;
+  zoom: 1;
+}
+.input-group:before,
+.input-group:after {
+  content: "";
+  display: table;
+}
+.input-group:after {
+  clear: both;
+}
+.input-group-icon {
+  position: relative;
+}
+.input-group-icon input {
+  padding-left: 5.5em;
+}
+.input-group-icon .input-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3.4em;
+  line-height: 2.8em;
+  text-align: center;
+  pointer-events: none;
+}
+.input-group-icon .input-icon:after {
+  position: absolute;
+  top: 0.6em;
+  bottom: 0.6em;
+  left: 3.4em;
+  display: block;
+  border-right: 1px solid #e5e5e5;
+  content: "";
+  -webkit-transition: 0.35s ease-in-out;
+  -moz-transition: 0.35s ease-in-out;
+  -o-transition: 0.35s ease-in-out;
+  transition: 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+.input-group-icon .input-icon i {
+  -webkit-transition: 0.35s ease-in-out;
+  -moz-transition: 0.35s ease-in-out;
+  -o-transition: 0.35s ease-in-out;
+  transition: 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+.container {
+  max-width: 38em;
+  padding: 1em 3em 2em 3em;
+  margin: 0em auto;
+  background-color: #fff;
+  border-radius: 4.2px;
+  box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+}
+.row {
+  zoom: 1;
+}
+.row:before,
+.row:after {
+  content: "";
+  display: table;
+}
+.row:after {
+  clear: both;
+}
+.col-half {
+  padding-right: 10px;
+  float: left;
+  width: 50%;
+}
+.col-half:last-of-type {
+  padding-right: 0;
+}
+.col-third {
+  padding-right: 10px;
+  float: left;
+  width: 33.33333333%;
+}
+.col-third:last-of-type {
+  padding-right: 0;
+}
+@media only screen and (max-width: 540px) {
+  .col-half {
+    width: 100%;
+    padding-right: 0;
+  }
+}
+
+  
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <form action="{% url 'add_book' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <h4>Details</h4>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Username" name="username" required>
+              <div class="input-icon">
+                <i class="fa fa-user"></i>
+              </div>
+            </div>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Book Name" name="book_name" required>
+              <div class="input-icon">
+                <i class="fa-solid fa-book"></i>
+              </div>
+            </div>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Author" name="author_name" required>
+              <div class="input-icon">
+                <i class="fa fa-user"></i>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-half">
+              <h4>Year of publication</h4>
+              <div class="input-group">
+                <div class="col-third">
+                  <input type="number" placeholder="YYYY" name="year_of_publication" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-half">
+              <h4>Cost</h4>
+              <div class="input-group">
+                <div class="input-group">
+                    <div class="col-third">
+                      <input type="text" placeholder="₹---" name="cost" required>
+                    </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-group">
+              <select name="genre" id="myselect">
+                  <option value="">Genre</option>
+                  <option value="Romance">Romance</option>
+                  <option value="Fiction">Fiction</option>
+                  <option value="Horror">Horror</option>
+                  <option value="Thriller">Thriller</option>
+                  <option value="Philosophy">Philosophy</option>
+                  <option value="Psychology">Psychology</option>
+                  <option value="Biography">Biography</option>
+                  <option value="autobiograhy">Autobiograhy</option>
+                  <option value="novel">Novel</option>
+                  <option value="Other">Other</option>
+              </select>
+          </div>          
+            <h4>Book Photo</h4>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Book image link" name="has_image" required>
+              <div class="input-icon">
+                <i class="fa-solid fa-image"></i>
+              </div>
+            </div>
+            <br>
+            <label for="stateSelect"><h4>Select State</h4></label>    
+            <br>          
+            <select id="stateSelect" name="state_location">
+                <option value="">State</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+              </select>
+          </div>
+          <div class="row">
+            <h4>Terms and Conditions</h4>
+            <div class="input-group">
+              <input id="terms" type="checkbox" required>
+              <label for="terms">I accept the terms and conditions for signing up to this service, and hereby confirm I have read the privacy policy.</label>
+            </div>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <br>
+      <a href="{% url 'start' %}"><button>Back</button></a>
+      {% if z %}
+      <p style="color: red;">Enter a valid Book Name</p>
+      {% endif %}
+      {%endblock%}
+</body>
+</html>

@@ -1,0 +1,489 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ===== CSS ===== -->
+        
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+     <title>Book Bridge</title>
+     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            /* transition: all 0.2s ease; */
+        }
+        
+        :root{
+            --body-color: #E4E9F7;
+            --nav-color: #4070F4;
+            --side-nav: #010718;
+            --text-color: #FFF;
+            --search-bar: #F2F2F2;
+            --search-text: #010718;
+        }
+        body{
+            height: 100vh;
+            background-color: var(--body-color);
+        }
+        body.dark{
+            --body-color: #18191A;
+            --nav-color: #242526;
+            --side-nav: #242526;
+            --text-color: #CCC;
+            --search-bar: #242526;
+        }
+        nav{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 70px;
+            width: 100%;
+            background-color: var(--nav-color);
+            z-index: 100;
+        }
+        body.dark nav{
+            border: 1px solid #393838;
+        }
+        nav .nav-bar{
+            position: relative;
+            height: 100%;
+            max-width: 1000px;
+            width: 100%;
+            background-color: var(--nav-color);
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        nav .nav-bar .sidebarOpen{
+            color: var(--text-color);
+            font-size: 25px;
+            padding: 5px;
+            cursor: pointer;
+            display: none;
+        }
+        nav .nav-bar .logo a{
+            font-size: 25px;
+            font-weight: 500;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .menu .logo-toggle{
+            display: none;
+        }
+        .nav-bar .nav-links{
+            display: flex;
+            align-items: center;
+        }
+        .nav-bar .nav-links li{
+            margin: 0 5px;
+            list-style: none;
+        }
+        .nav-links li a{
+            position: relative;
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 10px;
+        }
+        .nav-links li a::before{
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            background-color: var(--text-color);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .nav-links li:hover a::before{
+            opacity: 1;
+        }
+        .nav-bar .darkLight-searchBox{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .darkLight-searchBox .dark-light,.darkLight-searchBox .dark-light1,
+        .darkLight-searchBox .searchToggle{
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            display: none;
+            margin: 0 5px;
+        }
+        .searchBox .search-field{
+            position: absolute;
+            bottom: -85px;
+            display: none;
+            right: 5px;
+            height: 50px;
+            width: 300px;
+            display: flex;
+            align-items: center;
+            background-color: var(--nav-color);
+            padding: 3px;
+            border-radius: 6px;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .3s ease;
+        }
+        .search-field::before{
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: -4px;
+            height: 12px;
+            width: 12px;
+            background-color: var(--nav-color);
+            transform: rotate(-45deg);
+            z-index: -1;
+        }
+        body.dark .search-field i{
+            color: var(--text-color);
+        }
+        @media (max-width: 790px) {
+            nav .nav-bar .sidebarOpen{
+                display: block;
+            }
+            .menu{
+                position: fixed;
+                height: 100%;
+                width: 320px;
+                left: -100%;
+                top: 0;
+                padding: 20px;
+                background-color: var(--side-nav);
+                z-index: 100;
+                transition: all 0.4s ease;
+            }
+            nav.active .menu{
+                left: -0%;
+            }
+            nav.active .nav-bar .navLogo a{
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            .menu .logo-toggle{
+                display: block;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .logo-toggle .siderbarClose{
+                color: var(--text-color);
+                font-size: 24px;
+                cursor: pointer;
+            }
+            .nav-bar .nav-links{
+                flex-direction: column;
+                padding-top: 30px;
+            }
+            .nav-links li a{
+                display: block;
+                margin-top: 20px;
+            }
+            #prodetailes{
+                display: flex;
+                flex-direction: column;
+            }
+            .img1{
+                margin-left: 10%;
+                max-width: 70%;
+            }
+            .single-pro-detailes{
+                margin-left: 10%;
+            }
+        }
+        
+        
+        
+        
+        #prodetailes{
+            display: flex;
+            justify-content: space-around;
+        }
+        .black{
+            color:#CCC;
+        }
+        .section-p1{
+            margin: 130px 0  0  0;
+        }
+        .img1{
+            background: no-repeat;
+            width: 500px; /* Adjust the desired width */
+    height: 800px; /* Adjust the desired height */
+    object-fit: cover; 
+            --s: 10px;
+          padding: calc(3*var(--s));
+          --_g: #000 1px,#0000 0 calc(100% - 1px),#000 0;
+          --_s:  50%/calc(100% - 2*var(--s)) calc(100% - 2*var(--s));
+          background: 
+            linear-gradient(      var(--_g)) var(--_s) no-repeat,
+            linear-gradient(90deg,var(--_g)) var(--_s) no-repeat,
+            conic-gradient(from 90deg at 1px 1px,#0000 25%,#000 0)
+            calc(2*var(--s)) calc(2*var(--s))/calc(100% - 4*var(--s)) calc(100% - 4*var(--s));
+        }
+        .lines{
+            background: no-repeat;
+            width: 100%;
+            --s: 10px; /* control the size */
+          padding: calc(3*var(--s));
+          --_g: #FFF 1px,#FFFF 0 calc(100% - 1px),#FFF 0;
+          --_s:  50%/calc(100% - 2*var(--s)) calc(100% - 2*var(--s));
+          background: 
+            linear-gradient(      var(--_g)) var(--_s) no-repeat,
+            linear-gradient(90deg,var(--_g)) var(--_s) no-repeat,
+            conic-gradient(from 90deg at 1px 1px,#FFFF 25%,#FFF 0)
+            calc(2*var(--s)) calc(2*var(--s))/calc(100% - 4*var(--s)) calc(100% - 4*var(--s));
+        }
+        
+        #prodetailes .single-pro-detailes{
+            width: 50%;
+            padding-top: 30px;
+        }
+        #prodetailes .single-pro-detailes h6{
+            font-size: 12px;
+        }
+        #prodetailes .single-pro-detailes h4{
+            padding: 40px 0 20px 0;
+            font-size: 48px;
+        }
+        #prodetailes .single-pro-detailes h3{
+            padding: 40px 0 20px 0;
+        }
+        #prodetailes .single-pro-detailes h2{
+            font-size: 26px;
+        }
+        #prodetailes .single-pro-detailes span{
+            line-height: 25px;
+        }
+        
+        
+        /* CSS */
+        
+        /* CSS */
+        .button-27 {
+          appearance: none;
+          background-color: #000000;
+          border: 2px solid #1A1A1A;
+          border-radius: 15px;
+          box-sizing: border-box;
+          color: #FFFFFF;
+          cursor: pointer;
+          display: inline-block;
+          font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+          font-size: 16px;
+          font-weight: 600;
+          line-height: normal;
+          margin-top: 30px;
+          min-height: 60px;
+          min-width: 0;
+          max-width: 250px;
+          outline: none;
+          padding: 16px 24px;
+          text-align: center;
+          text-decoration: none;
+          transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+          width: 100%;
+          will-change: transform;
+        }
+        
+        .button-27:disabled {
+          pointer-events: none;
+        }
+        .button-27 a{
+            text-decoration: none;
+            color: white;
+        }
+        
+        .button-27:hover {
+          box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+          transform: translateY(-2px);
+        }
+        
+        .button-27:active {
+          box-shadow: none;
+          transform: translateY(0);
+        }
+        .change{
+            background-color: #fffcfc;
+          border: 2px solid #e4e4e4;
+            color: black;
+        }
+        .change:hover {
+          box-shadow: rgba(225, 225, 225, 0.25) 0 8px 15px;
+          transform: translateY(-2px);
+        }
+        
+        
+        .shop{
+          margin: 2rem 70px 100px 65pz;
+          padding: 2rem 0 3rem 0;
+        }
+        
+        .sectoin-title{
+          font-size: 1.5rem;
+          font-weight: 600;
+          text-align: center;
+        }
+        
+        .shop-content{
+          /* position: relative;
+          display: grid;
+          grid-template-columns: repeat(auto-fit,minmax(250px,auto));
+          gap: 3rem; */
+          overflow-x: auto; /* Enable horizontal scrolling */
+          white-space: nowrap; /* Prevent items from wrapping to the next line */
+          width: 100%;
+          margin-top: 4rem;
+          margin-left: 50px;
+        }
+        .product-box {
+          /* position: relative;
+          width: 90%;
+          transition: transform 0.4s; */
+          display: inline-block; /* Display items in a horizontal line */
+          /* Additional styling for your items */
+          margin-right: 20px;
+          min-height: 100px;
+        }
+        .product-img{
+            width: 200px; /* Adjust the desired width */
+    height: 320px; /* Adjust the desired height */
+    object-fit: cover; 
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+        }
+        .Project-title{
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .price{
+            font-weight: 500;
+        }
+        .ch{
+            color: #CCC;
+        }
+     </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-bar">
+            <i class='bx bx-menu sidebarOpen' ></i>
+            <span class="logo navLogo"><a href="#">Book Bridge</a></span>
+            <div class="menu">
+                <div class="logo-toggle">
+                    <span class="logo"><a href="#">Book Bridge</a></span>
+                    <i class='bx bx-x siderbarClose'></i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{% url 'start' %}">Home</a></li>
+                    <!-- <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li> -->
+                    <li><a href="{% url 'sell_book' %}">Sell</a></li>
+                    <li><a href="{% url 'frontpage' %}">Login/Signup</a></li>
+                    
+                </ul>
+            </div>
+            <div class="darkLight-searchBox"><div class="dark-light"></div><div class="dark-light1"></div><div class="searchBox"></div><div class="search-field"></div></div></div></div>
+    </nav>
+
+
+    
+    <section id="prodetailes" class="section-p1">
+        <div class="single-pro-image">
+            <img src="{{book.has_image}}" width="100%" height="100%" id="mainImg" class="img1" alt="">
+        </div>
+        <div class="single-pro-detailes">
+            <h4>{{book.book_name}}</h4>
+            <h5>Seller: {{book.username}}</h5>
+            <h5>Genre: {{book.genre}}</h5>
+            <h6>Year of Publishion : {{book.year_of_publication}}</h6>
+            <h2>₹{{book.cost}}</h2>
+            <a href="{% url 'frontpage' %}"><button class="button-27" role="button">Chat Now</button></a>
+            <h3>Product detailes</h3>
+            <span>{{book.book_description}}</span>
+        </div>
+    </section>
+    
+    <section class="shop container" >
+        <h2 class="sectoin-title">Related Books</h2>
+        <div class="shop-content">
+            {% for book in books %}
+            <a href="{% url 'book_detail' book.book_name book.author_name %}">
+                <div class="product-box">
+                    <img src="{{book.has_image}}" class="product-img" alt="">
+                    <h2 class="Project-title" >{{book.book_name}}</h2>
+                    <span class="price">{{book.cost}}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    <script>
+        const body = document.querySelector("body"),
+      nav = document.querySelector("nav"),
+      modeToggle = document.querySelector(".dark-light"),
+      modeToggle1 = document.querySelector(".dark-light1"),
+      searchToggle = document.querySelector(".searchToggle"),
+      sidebarOpen = document.querySelector(".sidebarOpen"),
+      siderbarClose = document.querySelector(".siderbarClose");
+      let getMode = localStorage.getItem("mode");
+          if(getMode && getMode === "dark-mode"){
+            body.classList.add("dark");
+          }
+// js code to toggle dark and light mode
+      modeToggle.addEventListener("click" , () =>{
+        modeToggle.classList.toggle("active");
+        modeToggle1.classList.toggle("active");
+        // js code to keep user selected mode even page refresh or file reopen
+        if(!body.classList.contains("dark")){
+            localStorage.setItem("mode" , "light-mode");
+        }else{
+            localStorage.setItem("mode" , "dark-mode");
+        }
+      });
+// js code to toggle search box
+ 
+      
+//   js code to toggle sidebar
+sidebarOpen.addEventListener("click" , () =>{
+    nav.classList.add("active");
+});
+body.addEventListener("click" , e =>{
+    let clickedElm = e.target;
+    if(!clickedElm.classList.contains("sidebarOpen") && !clickedElm.classList.contains("menu")){
+        nav.classList.remove("active");
+    }
+});
+
+// Get references to the select element and the textarea
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+{% extends 'chatApp/base.html' %}
+{%block title%}Login | {%endblock title%}
+{%block content%}
+<head><link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'></head>
+<style>
+    body{
+        min-height: 100vh;
+        background-color: #0c192c;
+    }
+    .maincont{
+        box-sizing: border-box;
+        position:relative;
+        width: 100%;
+        height: 100vh;
+    }
+    .bubbles{
+        position: relative;
+        display: flex;
+        z-index: -100;
+    }
+    .bubbles span{
+        position: relative;
+        width: 30px;
+        height: 30px;
+        background: #4fc3dc;
+        margin: 0 4px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 10px #4fc3dc44,0 0 50px #4fc3dc,0 0 100px #4fc3dc;
+        animation: animate 15s linear infinite;
+        animation-duration: calc(100s/var(--i));
+    }
+    .bubbles span :nth-child(2n){
+        background: #ff2d75;
+        box-shadow: 0 0 0 10px #4fc3dc44,0 0 50px #4fc3dc,0 0 100px #4fc3dc;
+    }
+    @keyframes animate{
+        0%{
+            transform: translateY(100vh)scale(0);
+        }
+        100%{
+            transform: translateY(-10vh)scale(1);
+        }
+    }
+    .wrapper{
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins",sans-serif;
+    }
+    .head{
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 36px;
+    }
+    .subb{
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin: 30px 0;
+    }
+    .subb input{
+        font-size: 16px;
+        color: #fff;
+        padding: 20px 45px 20px 20px;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        border: 2px solid rgba(255,255,255,.2);
+        border-radius: 40px;
+    }
+    .subb input::placeholder{
+        font-size: 15px;
+        color: #fff;
+    }
+    .subb i{
+        position: absolute;
+        right: 20px;
+        top: 28%;
+        translate: translateY(-50%);
+        font-size: 20px;
+    }
+    #btn{
+        width: 100%;
+        height: 45px;
+        background-color: #fff;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+    }
+
+</style>
+<div class="maincont">
+    <div class="bubbles">
+        <span style="--i:11;"></span>
+        <span style="--i:19;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:13;"></span>
+        <span style="--i:21;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:23;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:24;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:25;"></span>
+        <span style="--i:19;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:19;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:13;"></span>
+        <span style="--i:21;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:23;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:24;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:25;"></span>
+        <span style="--i:19;"></span>
+    </div>
+    <div class="wrapper">
+        <form action="." method="post">
+            {% csrf_token %}
+                <div class="head"><h1>Login</h1></div>
+                <div class="subb">
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="subb">
+                    <input type="email" name="email" id="email" placeholder="Email">
+                    <i class='bx bxl-gmail' ></i>
+                </div>
+                <div class="subb">
+                    <input type="password" name="password" id="password" placeholder="Password">
+                    <i class='bx bxs-lock-alt' ></i>
+                </div>
+                <div class="butn">
+                    <button id="btn">Login</button>
+                </div>
+            <div>
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for errors in field.errors %}
+                        <div style="background-color: red; color:white">
+                            <p>{{error|escape}}</p>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+{%endblock content%}
